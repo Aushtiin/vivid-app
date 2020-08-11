@@ -6,8 +6,8 @@ const { genreSchema } = require('./genres');
 const Movie = mongoose.model('Movie', new mongoose.Schema({
     title: { type: String, required: true, minlength: 5, maxlength: 50, trim: true},
     genre: { type: genreSchema, required: true},
-    numberInStock: Number,
-    dailyRentalRate: Number
+    numberInStock: {type: Number },
+    dailyRentalRate: { type: Number }
 }));
 
 function validateMovie(movie) {
@@ -19,3 +19,6 @@ function validateMovie(movie) {
     });
     return schema.validate(movie);
   }
+
+  exports.Movie = Movie;
+  exports.validateMovie = validateMovie;
