@@ -15,7 +15,7 @@ mongoose.connect("mongodb://localhost/genre-api", {
 app.use(express.json());;
 app.use('/api/genres', genres);
 app.use('/', home);
-app.use("./api/customers", customers)
+app.use("/api/customers", customers)
 
 
 const port = process.env.PORT || 3000;
