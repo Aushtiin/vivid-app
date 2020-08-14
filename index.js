@@ -1,8 +1,10 @@
 const express = require("express");
 const app = express();
+const Joi = require("@hapi/joi");
+Joi.objectId = require("joi-objectid")(Joi);
 const genres = require("./routes/genres");
 const customers = require("./routes/customers");
-const movies = require("./models/movies");
+const movies = require("./routes/movies");
 const home = require("./routes/home");
 const rentals = require("./routes/rentals");
 const mongoose = require("mongoose");

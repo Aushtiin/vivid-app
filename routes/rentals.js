@@ -2,6 +2,7 @@ const express = require("express");
 const { validateRental, Rental } = require("../models/rentals");
 const { Customer } = require("../models/customers");
 const { Movie } = require("../models/movies");
+const Fawn = require("fawn");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -35,20 +36,26 @@ router.post("/", async (req, res) => {
       dailyRentalRate: movie.dailyRentalRate,
     },
   });
-  rental = await rental.save();
 
-  movie.numberInStock--;
-  movie.save();
+  try {
+    new Fawn()
+      .save("rentals", rental)
+      .update("movies", { _id: movie._id }, { $inc: { numberInStock: -1 } })
+      .run();
 
-  res.send(rental);
+    res.send(rental);
+  } catch (ex) {
+    res.status(500).send("something went wrong");
+  }
 });
 
 router.get("/:id", async (req, res) => {
-    const rental = await Rental.findById(req.params.id);
+  const rental = await Rental.findById(req.params.id);
 
-    if (!rental) return res.status(404).send("The rental with the given ID was not found.");
+  if (!rental)
+    return res.status(404).send("The rental with the given ID was not found.");
 
-    res.send(rental);
+  res.send(rental);
 });
 
 module.exports = router;
