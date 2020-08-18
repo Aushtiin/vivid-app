@@ -9,7 +9,13 @@ const home = require("./routes/home");
 const rentals = require("./routes/rentals");
 const users = require("./routes/users");
 const auth = require("./routes/auth");
+const config = require("config");
 const mongoose = require("mongoose");
+
+if (!config.get("jwtkey")) {
+  console.error("FATAL ERROR: jwtkey is not defined ");
+  process.exit(1);
+}
 
 mongoose
   .connect("mongodb://localhost/vivid", {
