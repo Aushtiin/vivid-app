@@ -3,9 +3,13 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const config = require("config");
+const auth = require("../middleware/auth");
 const { User, validateUser } = require("../models/users");
+
+router.get("/me", auth, async (req, res) => {
+    const user = await User.findById(req.user._id).select("-password");
+    res.send(user);
+});
 
 router.post("/", async (req, res) => {
   const { error } = validateUser(req.body);
@@ -21,9 +25,9 @@ router.post("/", async (req, res) => {
 
   await user.save();
   const token = user.generateAuthToken();
-  
+
   res
-    .header("-x-auth-token", token)
+    .header("x-auth-token", token)
     .send(_.pick(user, ["_id", "name", "email"]));
 });
 

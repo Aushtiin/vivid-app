@@ -3,6 +3,7 @@ const { validateRental, Rental } = require("../models/rentals");
 const { Customer } = require("../models/customers");
 const { Movie } = require("../models/movies");
 const Fawn = require("fawn");
+const auth = require("../middleware/auth");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
