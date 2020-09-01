@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
+const validateObjectId = require('../middleware/validateObjectId');
 const { Genre, validateGenre } = require('../models/genres');
 
 router.get("/", async (req, res) => {
@@ -10,7 +11,7 @@ router.get("/", async (req, res) => {
   res.send(genres);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", validateObjectId, async (req, res) => {
   const genre = await Genre.findById(req.params.id);
 
   if (!genre) return res.status(404).send("Genre not found");

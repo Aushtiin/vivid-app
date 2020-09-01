@@ -1,0 +1,4 @@
+{
+    "jwtkey": "1234",
+    "db": "mongodb://localhost/vivid_tests"
+}
