@@ -26,7 +26,7 @@ describe("auth middleware test", () => {
   });
 
   it("should return a 401 if no token is provided", async () => {
-    token = "";
+    token = '';
 
     const res = await exec();
 

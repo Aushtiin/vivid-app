@@ -10,7 +10,7 @@ module.exports = function () {
 
   winston.handleRejections(
     new winston.transports.File({filename: 'rejections.log'})
-  ) 
+  ); 
 
   winston.add(winston.transports.File, { filename: "logfile.log", handleRejections: true});
   winston.add(winston.transports.MongoDB, { db: "mongodb://localhost/vivid" });
