@@ -9,7 +9,7 @@ describe("/api/genres", () => {
     server = require("../../index");
   });
   afterEach(async () => {
-    server.close();
+    await server.close();
     await Genre.remove({});
   });
 
@@ -247,7 +247,7 @@ describe("/api/genres", () => {
     it("should return the removed genre", async () => {
       const res = await exec();
 
-      expect(res.body).toHaveProperty("_id", genre._id);
+      expect(res.body).toHaveProperty("_id", genre._id.toHexString());
       expect(res.body).toHaveProperty("name", genre.name);
     });
   });

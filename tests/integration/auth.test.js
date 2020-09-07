@@ -9,7 +9,7 @@ describe("auth middleware test", () => {
   });
   afterEach(async () => {
     await Genre.remove({});
-    server.close();
+    await server.close();
   });
 
   let token;

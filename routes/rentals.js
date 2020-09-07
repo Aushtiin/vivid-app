@@ -4,6 +4,7 @@ const { Customer } = require("../models/customers");
 const { Movie } = require("../models/movies");
 const Fawn = require("fawn");
 const auth = require("../middleware/auth");
+const validate = require("../middleware/validate");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -12,10 +13,7 @@ router.get("/", async (req, res) => {
   res.send(rentals);
 });
 
-router.post("/", async (req, res) => {
-  const { error } = validateRental(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
+router.post("/", [auth, validate(validateRental)], async (req, res) => {
   const customer = await Customer.findById(req.body.customerId);
   if (!customer) return res.status(400).send("Invalid customer");
 
