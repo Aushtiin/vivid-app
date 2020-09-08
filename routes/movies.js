@@ -11,19 +11,19 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", validate(validateMovie), async (req, res) => {
-  const genre = await Genre.findById(req.body.genreId);
+  const genre = await Genre.findOne({name: req.body.genre});
   if (!genre) return res.status(404).send("Invalid genre");
 
   const movie = new Movie({
     title: req.body.title,
     genre: {
-        name: genre.name,
-        _id: genre._id
+      name: genre.name,
+      _id: genre._id,
     },
     numberInStock: req.body.numberInStock,
     dailyRentalRate: req.body.dailyRentalRate,
   });
- await movie.save();
+  await movie.save();
   res.send(movie);
 });
 
@@ -50,11 +50,11 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-    const movie = await Movie.findById(req.params.id)
+  const movie = await Movie.findById(req.params.id);
 
-    if ( !movie ) return res.status(404).send("Movie not found")
+  if (!movie) return res.status(404).send("Movie not found");
 
-    res.send(movie)
-})
+  res.send(movie);
+});
 
 module.exports = router;
